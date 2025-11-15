@@ -1,35 +1,32 @@
 #include <iostream>
+#include <vector>
 #include <string>
 using namespace std;
 
-// Функция для определения, читается ли строка одинаково с обеих сторон
-bool checkSymmetricString(const string& text, int leftIndex, int rightIndex) {
-    // Условие завершения: когда левый индекс встречается с правым
-    if (leftIndex >= rightIndex)
-        return true;
-
-    // Приводим символы к единому регистру для сравнения
-    char leftChar = tolower(text[leftIndex]);
-    char rightChar = tolower(text[rightIndex]);
-
-    // Если крайние символы совпадают, проверяем внутреннюю часть
-    if (leftChar == rightChar)
-        return checkSymmetricString(text, leftIndex + 1, rightIndex - 1);
-    else
-        return false;
+vector<string> generateBinary(int n) {
+    if (n == 0) {
+        return {""};
+    }
+    
+    vector<string> smaller = generateBinary(n - 1);
+    vector<string> result;
+    
+    for (string s : smaller) {
+        result.push_back(s + "0");
+        result.push_back(s + "1");
+    }
+    
+    return result;
 }
 
 int main() {
-    string userInput;
-    cout << "Пожалуйста, введите текст для проверки: ";
-    cin >> userInput;
-
-    bool isSymmetric = checkSymmetricString(userInput, 0, userInput.length() - 1);
-
-    if (isSymmetric)
-        cout << "Да, это палиндром!" << endl;
-    else
-        cout << "Нет, это не палиндром." << endl;
-
+    int n = 3;
+    vector<string> binaryStrings = generateBinary(n);
+    
+    cout << "Все бинарные строки длины " << n << ":" << endl;
+    for (string s : binaryStrings) {
+        cout << s << endl;
+    }
+    
     return 0;
 }
